@@ -1,0 +1,119 @@
+/*I know there are bugs. I'm just happy that it runs. If they still annoy you, fix'em yourself*/
+
+#include <stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<ctype.h>
+
+static int wrong =0,flag=0;
+static char str[15][2]={"R_","A_" ,"M_","A_","D_","A_","N_","  ","M_","U_","B_","A_","R_","A_","K_"};
+
+int check(){
+
+    int n=15, flag1=0;
+
+
+    char guess;
+
+
+    for(int i=0, flag=0; i<n; i++){
+        if(str[i][1]!='_'){
+            flag++;
+            if(flag==15)
+                return 1;
+        }
+
+    }
+
+    for(int i=0; i<n && flag ==0; i++){
+    printf("%c ", str[i][1]);
+    if(i==n-1)
+    printf("\n");
+    }
+
+    flag++;
+
+    scanf(" %c", &guess);
+    guess =  toupper(guess);
+    for(int i=0; i<n; i++){
+     if(guess==str[i][0]){
+
+         str[i][1] = guess;
+         flag1=1;
+     }
+
+    }
+    if(!flag1){
+        wrong++;
+        if(wrong==1)
+            printf("[X]\n");
+        else if(wrong==2)
+            printf("[XX]\n");
+        else if(wrong==3){
+            printf("[XXX]\n");
+            return wrong;
+        }
+    }
+
+    for(int i=0; i<n; i++)
+    printf("%c ", str[i][1]);
+    printf("\n");
+
+    return 0;
+}
+
+void intro(){
+    printf("!!!Peace be Upon ya'll and welcome!!!\nTo A Game of Hang-man\n(Don't know how to play!, edge it (or opera it or google it)...)\nMy own rule: Guess wrong and get a cross[x]; 3 Xs and you're out!\n!Now Begin!\n");
+}
+
+void printing_stuff(int x){
+     if(x==1){
+        printf("<^_________________<^>__________________^>\nThanks for palying my little game\nBlessed Ramadan!");
+
+}
+
+else if(x==3){
+    printf("o-oh! Try Again! Also take this consolation pize");
+    printf("\n___________________\nThe Hanging Tree\n____________________\nJames Newton Howard\n\nAre you, are you comin' to the tree?\nWhere they strung up a man, they say, who murdered three\nStrange things did happen here, no stranger would it be\nIf we met at midnight in the hanging tree\nAre you, are you comin' to the tree\nWhere dead man called out for his love to flee?\nStrange things did happen here, no stranger would it be\nIf we met at midnight in the hanging tree\nAre you, are you comin' to the tree\nWhere I told you to run, so we'd both be free?\nStrange things did happen here, no stranger would it be\nIf we met at midnight in the hanging tree\nAre you, are you comin' to the tree\nWhere necklace of hope, side by side with me?\nStrange things did happen here, no stranger would it be\nIf we met at midnight in the hanging tree\nAre you, are you comin' to the tree\nWhere I told you to run, so we'd both be free?\nStrange things did happen here, no stranger would it be\nIf we met at midnight in the hanging tree\nAre you, are you comin' to the tree?\nWhere they strung up a man, they say, who murdered three\nStrange things did happen here, no stranger would it be\nIf we met at midnight in the hanging tree\nAre you, are you comin' to the tree\nWhere the dead man called out for his love to flee?\nStrange things did happen here, no stranger would it be\nIf we met at midnight in the hanging tree\n\nSongwriters: James Newton Howard, Suzanne Collins, Wesley Keith Schultz, Jeremy Caleb Fraites. For non-commercial use only.\nData From: Musixmatch\n[be grateful taht you weren't Rick Rolled]");
+}
+
+else printf("Error!");
+
+
+}
+
+void the_game(){
+    int enter;
+    intro();
+
+    int x=0;
+   while(!x){
+    x = check();
+   }
+    printing_stuff(x);
+
+    printf("\n\nWould you like to play again?\nEnter 1 for YES & 0 for NO\n");
+scanf("%d", &enter);
+if(enter){
+    if(wrong!=3){
+        for(int i=0; str[i][1]!='\0';i++){
+
+if(i==7) str[i][1]=' ';
+else str[i][1]='_';
+}
+    }
+
+    wrong=0;
+    flag=0;
+
+    the_game();
+}
+else return;
+}
+
+int main() {
+
+    the_game();
+
+    return 0;
+}
