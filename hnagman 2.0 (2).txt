@@ -1,0 +1,125 @@
+/*I know there are bugs. I'm just happy that it runs. If they still annoy you, fix'em yourself*/
+
+#include <stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<ctype.h>
+#include<time.h>
+
+static int wrong =0,flag=0;
+static char str[8][15][2]={{"E_","I_" ,"D_","  ","M_","U_","B_","A_","R_","A_","K_"},{"E_", "I_", "D_","  ","A_","L_","  ","F_","T_","R_"},{"P_","R_","A_","Y_"},{"S_","A_","L_","A_","M_"},{"G_","R_","A_","T_","I_","T_","U_","D_","E_"},{"J_","O_","Y_"},{"C_","H_","A_","R_","I_","T_","Y_"},{"G_","A_","T_","H_","E_","R_"}};
+
+int check(int word){
+
+
+    int n=0, flag1=0;
+
+for(int i=0;  str[word][i][1]!='\0'; i++)
+n++;
+
+    char guess;
+
+
+    for(int i=0, flag=0; i<n; i++){
+        if(str[word][i][1]!='_'){
+            flag++;
+            if(flag==n)
+                return 1;
+        }
+
+    }
+
+    for(int i=0;  i<n && flag ==0; i++){
+    printf("%c ", str[word][i][1]);
+    if(i==n-1)
+    printf("\n");
+    }
+
+    flag++;
+
+    scanf(" %c", &guess);
+    guess =  toupper(guess);
+    for(int i=0; i<n; i++){
+     if(guess==str[word][i][0]){
+
+         str[word][i][1] = guess;
+         flag1=1;
+     }
+
+    }
+    if(!flag1){
+        wrong++;
+        if(wrong==1)
+            printf("[X]\n");
+        else if(wrong==2)
+            printf("[XX]\n");
+        else if(wrong==3){
+            printf("[XXX]\n");
+            return wrong;
+        }
+    }
+
+    for(int i=0; i<n; i++)
+    printf("%c ", str[word][i][1]);
+    printf("\n");
+
+    return 0;
+}
+
+void intro(){
+    printf("!!!Peace be Upon ya'll and welcome!!!\nTo A Game of Hang-man\n(Don't know how to play!, edge it (or opera it or google it)...)\nMy own rule: Guess wrong and get a cross[x]; 3 Xs and you're out!\n!Now Begin!\n");
+}
+
+void printing_stuff(int x){
+     if(x==1){
+        printf("<^_________________<^>__________________^>\nThanks for palying my little game\nBlessed Eid-ul-Fitr!");
+
+}
+
+else if(x==3)
+    printf("Tough word! Huh?");
+
+
+else printf("Error!");
+
+
+}
+
+void the_game(int word){
+  int ub = 7, lb= 0;
+    int enter;
+    intro();
+
+    int x=0;
+   while(!x){
+    x = check(word);
+   }
+    printing_stuff(x);
+
+    printf("\n\nWould you like to play again?\nEnter 1 for YES & 0 for NO\n");
+scanf("%d", &enter);
+if(enter){
+    if(wrong!=3){
+        for(int i=0; str[word][i][1]!='\0';i++){
+
+if(str[word][i][0]==' ') str[word][i][1]=' ';
+else str[word][i][1]='_';
+}
+    }
+
+    wrong=0;
+    flag=0;
+word=(rand()% (ub - lb + 1)) + lb;
+    the_game(word);
+}
+else return;
+}
+
+int main() {
+srand(time(0));
+   int ub = 7, lb= 0;
+   int word=(rand()% (ub - lb + 1)) + lb;
+    the_game(word);
+
+    return 0;
+}
