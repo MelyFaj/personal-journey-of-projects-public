@@ -1,4 +1,4 @@
-/*If you find any bug, do send me a s.s. of your entire played-game*/
+/*If you find any bug, do send me an s.s. of your entire played game*/
 /*
 Game creator: Mehrin Farzana
 Game created on: 21-4-2023
@@ -12,6 +12,24 @@ Game created on: 21-4-2023
 char room[9] = "123456789";
 char name[2][101];
 int move=0;
+
+int the_game();
+void player_move_against_computer();
+void player_move_against_human();
+int computer_move();
+int check();
+int check_draw();
+void board();
+int enter_name();
+
+int main(){
+    srand(time(NULL));
+    printf("Welcome to a game of Tic-Tac-Toe!\nPlayer 1, Try to write 'EID' horizontally, vertically or diagonally to WIN!\n");
+    printf("Player 2, Try to write 'XXX' horizontally, vertically or diagonally to WIN!\n");
+    the_game();
+    return 0;
+}
+
 int enter_name(){
     char computer[9];
     int flag=0;
@@ -23,11 +41,12 @@ int enter_name(){
     scanf(" %[^\n]s", name[1]);
     for(int i=0; i<8; i++)
         computer[i]=toupper(name[1][i]);
-
+    computer[8]='\0';
     if(strcmp("COMPUTER", computer)==0)
         flag=1;
-return flag;
+    return flag;
 }
+
 void board(){
     printf("\n");
     for(int i=0; i<9; i+=3){
@@ -37,6 +56,7 @@ void board(){
     }
      printf("\n");
 }
+
 int check_draw(int check){
     int flag=0;
     if(!check) return 1;
@@ -53,6 +73,7 @@ int check_draw(int check){
     }
 
 }
+
 int check(){
         if((room[0]=='E' && room[1]=='I' && room[2]=='D') || (room[3]=='E' && room[4]=='I' && room[5]=='D') || (room[6]=='E' && room[7]=='I' && room[8]=='D') || (room[0]=='E' && room[3]=='I' && room[6]=='D') || (room[1]=='E' && room[4]=='I' && room[7]=='D') || (room[2]=='E' && room[5]=='I' && room[8]=='D') || (room[0]=='E' && room[4]=='I' && room[8]=='D') || (room[2]=='E' && room[4]=='I' && room[6]=='D')){
                 printf("%s won the match!\n", name[0]);
@@ -76,6 +97,35 @@ int computer_move(int p){
     else{
         int a[9]={0,1,2,3,4,5,6,7,8};
         return a[rand()%8];
+    }
+}
+
+void player_move_against_human(){
+    int p;
+    if(move==0)
+        printf("Enter the room number where you want to make your move: ");
+    else if(move%2==1)
+        printf("player 2, Enter room#: ");
+    else if(move%2==0)
+        printf("player 1, Enter room#: ");
+    scanf("%d", &p);
+    if(room[p-1]!='E' && room[p-1]!='I'  && room[p-1]!='D'  && room[p-1]!='X' && p>0 && p<10){
+        if(move%2==0){
+            if(move==0 || move==6)
+                room[p-1]='E';
+            else if(move==2 || move==8)
+                room[p-1]='I';
+            else if(move==4)
+                room[p-1]='D';
+        }
+
+        else if(move%2==1)
+            room[p-1]='X';
+        move++;
+    }
+    else{
+        printf("Invalid! Try again.\n");
+        player_move_against_human();
     }
 }
 
@@ -118,39 +168,15 @@ void player_move_against_computer(){
     }
 }
 
-void player_move_against_human(){
-    int p;
-    if(move==0)
-        printf("Enter the room number where you want to make your move: ");
-    else if(move%2==1)
-        printf("player 2, Enter room#: ");
-    else if(move%2==0)
-        printf("player 1, Enter room#: ");
-    scanf("%d", &p);
-    if(room[p-1]!='E' && room[p-1]!='I'  && room[p-1]!='D'  && room[p-1]!='X' && p>0 && p<10){
-        if(move%2==0){
-            if(move==0 || move==6)
-                room[p-1]='E';
-            else if(move==2 || move==8)
-                room[p-1]='I';
-            else if(move==4)
-                room[p-1]='D';
-        }
 
-        else if(move%2==1)
-            room[p-1]='X';
-        move++;
-    }
-    else{
-        printf("Invalid! Try again.\n");
-        player_move_against_human();
-    }
-}
 int the_game(){
     int a=1, b=1, flag, enter;
     char computer[8];
     flag=enter_name();
     board();
+    //
+    //    printf("\nharat!\n");
+    //printf("%d\n", flag);
     if(flag==1){
         while(a && b){
         a=check();
@@ -178,10 +204,4 @@ if(enter){
     the_game();
 }
 else return 0;
-}
-int main(){
-    srand(time(NULL));
-    printf("Welcome to a game of Tic-Tac-Toe!\nPlayer 1, Try to write 'EID' horizontally, vertically or diagonally to WIN!\n");
-    the_game();
-    return 0;
 }
